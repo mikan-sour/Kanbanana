@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+/* can now reference my font */
+body {
+  font-family: Lato;
+  margin: 0; padding: 0; box-sizing: border-box;
+}
