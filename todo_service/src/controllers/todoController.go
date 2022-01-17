@@ -146,7 +146,15 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		utils.ResponseSuccess(w, todos, http.StatusOK)
+		columns, err := services.FormatColumnsResponseService(*todos)
+		if err != nil {
+			utils.ResponseError(w, http.StatusInternalServerError, err.ErrorMessage)
+			return
+		}
+
+		var apiResponse = models.ApiColumnsAndTodoResponse{Todos: todos, Columns: columns}
+
+		utils.ResponseSuccess(w, apiResponse, http.StatusOK)
 
 	} else {
 
