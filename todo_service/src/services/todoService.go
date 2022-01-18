@@ -117,15 +117,14 @@ func UpdateOrderOfTodosService(toBeUpdatedTodos []models.TodoUpdateOrder) ([]mod
 func FormatColumnsResponseService(todoSlice []models.Todo) (*models.ColumnsResponse, *models.ApiError) {
 	var columnResponse = models.ColumnsResponse{}
 	utils.PrepColumnResponse(&columnResponse)
-
 	for i := 0; i < len(todoSlice); i++ {
 		switch todoSlice[i].Status {
-		case 1:
+		case "todo":
 			columnResponse.Todo.Tasks = append(columnResponse.Todo.Tasks, todoSlice[i].ID)
-		case 2:
-			columnResponse.Doing.Tasks = append(columnResponse.Todo.Tasks, todoSlice[i].ID)
-		case 3:
-			columnResponse.Done.Tasks = append(columnResponse.Todo.Tasks, todoSlice[i].ID)
+		case "doing":
+			columnResponse.Doing.Tasks = append(columnResponse.Doing.Tasks, todoSlice[i].ID)
+		case "done":
+			columnResponse.Done.Tasks = append(columnResponse.Done.Tasks, todoSlice[i].ID)
 		default:
 			return nil, &models.ApiError{ErrorMessage: fmt.Sprintf("Status of %s was not 1, 2, or 3", todoSlice[i].ID)}
 		}

@@ -11,7 +11,7 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$POSTGRES_DB"<<-EO
          title VARCHAR(255) NOT NULL,
          details TEXT,
          priority INT NOT NULL, 
-         status INT NOT NULL,
+         status VARCHAR(10) NOT NULL,
          order_in_column INT NOT NULL,
          due_date timestamp without time zone, 
          created_date timestamp without time zone NOT NULL DEFAULT (now() AT TIME ZONE 'UTC'), 

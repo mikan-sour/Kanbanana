@@ -1,21 +1,17 @@
-import { IColumnData, IKanbanAction, IKanbanContext, ITodo } from "../../types";
-import { getColumnOrderDifference } from "../../utils/kanban";
-
-const utilColumns = (columns:IColumnData,todo:ITodo) => {
-    const columnArr = Object.values(columns)
-    const targetColumnIndex = columnArr.findIndex(col => col.title === todo.status)
-    const targetColumn = columnArr[targetColumnIndex];
-    return targetColumn;
-}
+import { IKanbanAction, IKanbanContext } from "../../types";
+import { getColumnOrderDifference, utilColumns } from "../../utils/kanban";
 
 export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanContext => {
 
-    const { todos, columns, columnOrder, columnStart, columnEnd, todo, todoId } = action.payload; 
+    const { isLoading, todos, columns, columnOrder, columnStart, columnEnd, todo, todoId } = action.payload; 
 
     switch(action.type){
+
+        case 'SET_LOADING':
+            return {...state,isLoading}
         
         case 'INIT_STATE':
-            return {todos,columns,columnOrder};
+            return {todos,columns,columnOrder,isLoading:false};
 
         case 'DRAG_UPDATE_SAME_COLUMN':
             if(!columnStart) return state;
@@ -25,8 +21,7 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
                 [columnStart.id]: columnStart
             }
 
-            let updatesSame = getColumnOrderDifference(state.columns,updateColumns)
-            console.log(updatesSame)
+            let updatesSame = getColumnOrderDifference(state.columns,updateColumns);
 
             return {
                 ...state,
@@ -73,7 +68,6 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
             const delIndex = targetColumnRemoveTask.tasks.indexOf(targetTodo.id);
             if(delIndex !== -1) targetColumnRemoveTask.tasks.splice(delIndex,1)
 
-            // console.log('$$$',targetTodo,targetColumnRemoveTask)
             
             const deleteTodoColumns = {
                 ...state.columns,

@@ -30,8 +30,9 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
         setModalOpen(false);
     } 
 
-
-    return (
+    return !column ? 
+    <></> :
+    (
         <Container isDraggingOver={isDraggingOverCheck.isDraggingOver}>
             <Modal isOpen={modalOpen} handleClose={handleClose} title='Add Todo'>
                 <h1>My Content</h1>

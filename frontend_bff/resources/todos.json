@@ -6,10 +6,10 @@
         "details":"cat nap",
         "priority":2,
         "status":"To Do",
+        "order":"",
         "dueDate":1638610013,
         "createdDate":1638600013,
-        "lastModified":1638600013,
-        "colId":"bvcx55eq"
+        "lastModified":1638600013
     },
     {
         "id":"2",
@@ -18,10 +18,10 @@
         "details":"pizza :)",
         "priority":3,
         "status":"Doing",
+        "order":"",
         "dueDate":1638610013,
         "createdDate":1638600013,
-        "lastModified":1638600013,
-        "colId":"bvcsfghjhgf"
+        "lastModified":1638600013
     },
     {
         "id":"3",
@@ -30,9 +30,9 @@
         "details":"my app!",
         "priority":2,
         "status":"To Do",
+        "order":"",
         "dueDate":1638610013,
         "createdDate":1638600013,
-        "lastModified":1638600013,
-        "colId":"bvcx55eq"
+        "lastModified":1638600013
     }
 ]

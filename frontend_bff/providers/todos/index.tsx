@@ -5,7 +5,8 @@ import { todoReducer } from './TodoReducer';
 const initialState:IKanbanContext = {
     todos:[],
     columnOrder:[],
-    columns:{}
+    columns:{},
+    isLoading:true
 }
 
 export const TodoContext = React.createContext<{

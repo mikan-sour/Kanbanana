@@ -1,9 +1,8 @@
 import React from "react";
-import { DragStart, DropResult } from "react-beautiful-dnd";
+import { DragStart, Droppable, DropResult } from "react-beautiful-dnd";
 import { IColumn, IColumnData, IKanbanAction, ITodo, TColumnChange } from "../../types";
 
 export function handleDragStartUtil(start: DragStart, setIsdragging:React.Dispatch<React.SetStateAction<boolean>>) {
-    // console.log(start);
     setIsdragging(true);
 }
 
@@ -33,16 +32,14 @@ export const handleDragEndUtil = (result:DropResult, columns:IColumnData,setIsdr
     const columnEnd = columns[destination.droppableId];
 
     if(columnStart === columnEnd) {
+        
         const newTasks = Array.from(columnStart.tasks);
-        // console.log('$$$',source.index,destination.index,newTasks,draggableId)
         newTasks.splice(source.index,1);
         newTasks.splice(destination.index,0,draggableId);
-        // console.log('$$$3',newTasks);
         const newColumn:IColumn = {
             ...columnStart,
             tasks: newTasks
         }
-        // console.log('***',newColumn)
         dispatch({type:'DRAG_UPDATE_SAME_COLUMN',payload:{columnStart:newColumn}});
         return;
     }
@@ -79,6 +76,7 @@ export const addNewTodo = (columnTitle:string,dispatch:React.Dispatch<IKanbanAct
         lastModified:now,
         status:columnTitle,
         details:'',
+        order:1,
         id:now.toString(),
         priority:1
     } 
@@ -111,4 +109,12 @@ export const getColumnOrderDifference = (before:IColumnData,after:IColumnData):T
 
     return columnChanges;
 
+}
+
+// util to get target column 
+export const utilColumns = (columns:IColumnData,todo:ITodo) => {
+    const columnArr = Object.values(columns)
+    const targetColumnIndex = columnArr.findIndex(col => col.id === todo.status)
+    const targetColumn = columnArr[targetColumnIndex];
+    return targetColumn;
 }

@@ -10,7 +10,7 @@ type Todo struct {
 	Title         string    `json:"title,omitempty"`
 	Details       string    `json:"details,omitempty"`
 	Priority      int       `json:"priority,omitempty"`
-	Status        int       `json:"status,omitempty"`
+	Status        string    `json:"status,omitempty"`
 	OrderInColumn int       `json:"order,omitempty"`
 	DueDate       time.Time `json:"dueDate,omitempty"`
 	CreatedDate   time.Time `json:"createdDate,omitempty"`

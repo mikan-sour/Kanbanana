@@ -7,7 +7,6 @@ const Todo:React.FC<TodoProps> = (props:TodoProps) => {
     return (
         <Draggable draggableId={props.id} index={props.index}>
             {(provided, snapshot) =>  {
-                // console.log("@@@",provided,snapshot)
                 return (
                     <Container 
                         {...provided.draggableProps} 

@@ -1,7 +1,7 @@
 package models
 
 type Column struct {
-	ID    int      `json:"id"`
+	ID    string   `json:"id"`
 	Tasks []string `json:"tasks"`
 	Title string   `json:"title"`
 }

@@ -3,6 +3,15 @@ export interface ILoginForm {
     password:string
 }
 
+export interface IInitialState {
+    todos: ITodo[],
+    columns: {
+        todo:IColumn,
+        doing:IColumn,
+        done:IColumn
+    }
+}
+
 export interface ITodo {
     id: string;
     ownerId: string;
@@ -10,6 +19,7 @@ export interface ITodo {
     details: string;
     priority: number;
     status: string;
+    order: number;
     dueDate?: number;
     createdDate: number;
     lastModified: number;
@@ -18,7 +28,7 @@ export interface ITodo {
 export interface IColumn {
     id: string;
     title: string;
-    tasks?: (string)[] | null;
+    tasks?: string[];
 }
 
 export interface IColumnData {
@@ -43,6 +53,7 @@ export interface TodoProps extends ITodo {
 export interface IKanbanAction {
     type:string,
     payload:{
+        isLoading?:boolean,
         todos?:ITodo[],
         columns?:IColumnData,
         columnOrder?:string[],
@@ -54,6 +65,7 @@ export interface IKanbanAction {
 }
 
 export interface IKanbanContext {
+    isLoading:boolean,
     todos?:ITodo[],
     columns?:IColumnData,
     columnOrder?:string[]
