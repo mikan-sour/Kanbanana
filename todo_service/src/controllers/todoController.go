@@ -110,7 +110,6 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// submit to service
-
 	todo, err := services.PostTodoService(&todoPost)
 
 	if err != nil {

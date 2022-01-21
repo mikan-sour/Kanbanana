@@ -126,7 +126,7 @@ func FormatColumnsResponseService(todoSlice []models.Todo) (*models.ColumnsRespo
 		case "done":
 			columnResponse.Done.Tasks = append(columnResponse.Done.Tasks, todoSlice[i].ID)
 		default:
-			return nil, &models.ApiError{ErrorMessage: fmt.Sprintf("Status of %s was not 1, 2, or 3", todoSlice[i].ID)}
+			return nil, &models.ApiError{ErrorMessage: fmt.Sprintf("Status of %s was not `todo`, `doing`, or `done`", todoSlice[i].ID)}
 		}
 	}
 
