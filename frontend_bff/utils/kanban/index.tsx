@@ -1,6 +1,7 @@
 import React from "react";
 import { DragStart, Droppable, DropResult } from "react-beautiful-dnd";
 import { IColumn, IColumnData, IKanbanAction, ITodo, TColumnChange } from "../../types";
+import { handleTodoDeleteRequest } from "../database";
 
 export function handleDragStartUtil(start: DragStart, setIsdragging:React.Dispatch<React.SetStateAction<boolean>>) {
     setIsdragging(true);
@@ -24,6 +25,13 @@ export const handleDragEndUtil = (result:DropResult, columns:IColumnData,setIsdr
 
     // handle delete trash
     if(destination.droppableId === 'trashcan') {
+
+        // handle DB action
+        if(!handleTodoDeleteRequest(draggableId)){
+            console.error("unable to delete this item");
+            return;
+        }
+
         dispatch({type:"DELETE_TODO",payload:{todoId:draggableId}})
         return
     }
@@ -40,6 +48,9 @@ export const handleDragEndUtil = (result:DropResult, columns:IColumnData,setIsdr
             ...columnStart,
             tasks: newTasks
         }
+
+        // this is where the DB action should go
+        
         dispatch({type:'DRAG_UPDATE_SAME_COLUMN',payload:{columnStart:newColumn}});
         return;
     }

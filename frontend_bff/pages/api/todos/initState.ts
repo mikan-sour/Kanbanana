@@ -9,7 +9,9 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse) {
     try {
         const result = await fetch(`${todoServiceURI}?owner_id=${query['owner_id']}`)
         if(result.status !== 200) {
-            throw new Error ("response code not good");
+            const error = await result.json();
+            console.error(result.status, error)
+            throw new Error (error);
         }
         const data = await result.json()
         res.status(200).json(data)

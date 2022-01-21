@@ -24,7 +24,7 @@ const Kanban:React.FC<{}> = () => {
         try {
             dispatch({type:'IS_LOADING',payload:{isLoading:true}})
             // setIsLoading(true)
-            const res =  await fetch(`http://localhost:3001/api/initState?owner_id=fb2baf72-a1f3-4156-94de-83960ac79675`);
+            const res =  await fetch(`http://localhost:3001/api/todos/initState?owner_id=fb2baf72-a1f3-4156-94de-83960ac79675`);
             const data:IInitialState = await res.json();
             const { todos, columns } = data;
             const columnOrder = ['todo','doing','done']

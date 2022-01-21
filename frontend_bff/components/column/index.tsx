@@ -7,6 +7,7 @@ import PlusLogo from "../atoms/logo/plus";
 import { TodoContext } from "../../providers/todos";
 import { addNewTodo } from "../../utils/kanban";
 import Modal from "../modal";
+import TodoForm from "../todoForm";
 
 const Column:React.FC<ColumnProps> = ({column,todos}) => {
 
@@ -23,7 +24,8 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
 
     function handleAddTodo(){
         setModalOpen(true)
-        addNewTodo(column.title, dispatch)
+        console.log('s')
+        // addNewTodo(column.title, dispatch)
     }
 
     function handleClose():void {
@@ -35,7 +37,7 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
     (
         <Container isDraggingOver={isDraggingOverCheck.isDraggingOver}>
             <Modal isOpen={modalOpen} handleClose={handleClose} title='Add Todo'>
-                <h1>My Content</h1>
+                <TodoForm columnId={column.id}/>
             </Modal>
             <TitleWrapper>
                 <Title>{column.title}</Title>

@@ -28,7 +28,6 @@ const Modal:React.FC<{isOpen:boolean,handleClose:()=>void,title:string}>= ({ han
             </ModalHeader>
             <ModalBody>
                {children}
-               <button onClick={handleClose}>close</button>
             </ModalBody>
          </ModalWrapper>
       </>

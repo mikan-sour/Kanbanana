@@ -21,7 +21,10 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
                 [columnStart.id]: columnStart
             }
 
+            // format post request
             let updatesSame = getColumnOrderDifference(state.columns,updateColumns);
+
+            // do DB action
 
             return {
                 ...state,
@@ -43,8 +46,8 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
 
         case 'ADD_NEW_TODO':
             if(!todo) return;
-
             const targetColumn = utilColumns(state.columns,todo)
+            console.log(targetColumn);
             targetColumn.tasks.push(todo.id);
 
             const addNewTodoColumns = {
