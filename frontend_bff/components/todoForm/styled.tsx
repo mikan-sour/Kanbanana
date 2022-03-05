@@ -1,7 +1,26 @@
 import styled from "styled-components";
+
+export const TodoFormContainer = styled.form`
+    display: flex;
+    flex-direction:column;
+    align-items: left;
+    justify-content:space-around;
+`
+
+export const TodoFormLabel = styled.label`
+    margin: .5rem 0;
+`
+
+export const TodoFormInput = styled.input`
+    height: 1.5rem;
+`
+
+export const TodoFormSelect = styled.select`
+    height: 1.5rem;
+`
  
 export const FormButtonGroup = styled.div`
-    position:absolute;
+    position:fixed;
     bottom:.75rem;
     right:.75rem;
     padding:.5rem;

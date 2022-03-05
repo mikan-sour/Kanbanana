@@ -19,8 +19,8 @@ export const ModalWrapper = styled.div`
     align-items: center;
     justify-content: center;
     min-width: 400px;
-    width: 45vw;
-    height: 65vh;
+    width: 70vw;
+    height: 575px;
     transition: translateY(5rem);
 
 `

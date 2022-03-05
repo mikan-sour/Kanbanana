@@ -1,10 +1,11 @@
-import { IKanbanAction, IKanbanContext } from "../../types";
+import { IKanbanAction, IKanbanContext } from "../../types/types";
+import { handleUpdateOrder } from "../../utils/database";
 import { getColumnOrderDifference, utilColumns } from "../../utils/kanban";
 
 export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanContext => {
 
     const { isLoading, todos, columns, columnOrder, columnStart, columnEnd, todo, todoId } = action.payload; 
-
+    
     switch(action.type){
 
         case 'SET_LOADING':
@@ -25,6 +26,16 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
             let updatesSame = getColumnOrderDifference(state.columns,updateColumns);
 
             // do DB action
+            try {
+                const result = handleUpdateOrder(updatesSame);
+                if(!result) {
+                    throw new Error('something happened')
+                }
+            }catch(e){
+                console.error(e)
+                // should return state
+                return state;
+            }
 
             return {
                 ...state,
@@ -40,24 +51,47 @@ export const todoReducer = (state:IKanbanContext, action:IKanbanAction):IKanbanC
             } 
 
             let updates = getColumnOrderDifference(state.columns,updateColumnsMulti)
-            console.log(updates)
+            try {
+                const result = handleUpdateOrder(updates);
+                if(!result) {
+                    throw new Error('something happened')
+                }
+            }catch(e){
+                console.error(e)
+                // should return state
+                return state;
+            }
 
             return { ...state, columns:updateColumnsMulti};
 
         case 'ADD_NEW_TODO':
             if(!todo) return;
-            const targetColumn = utilColumns(state.columns,todo)
-            console.log(targetColumn);
-            targetColumn.tasks.push(todo.id);
+            const targetColumnAdd = utilColumns(state.columns,todo)
+            console.log(targetColumnAdd);
+            targetColumnAdd.tasks.push(todo.id);
 
             const addNewTodoColumns = {
                 ...state.columns,
-                [targetColumn.id]:targetColumn
+                [targetColumnAdd.id]:targetColumnAdd
             }
 
             const addNewTodoState = [...state.todos,todo];
 
             return {...state,columns:addNewTodoColumns, todos:addNewTodoState};
+        
+        case "UPDATE_TODO":
+            // have a todo
+            if(!todo) return;
+
+            // make a new todos state
+            const updatedTodos = Array.from(state.todos);
+            const indexOfOldTodo = updatedTodos.findIndex(target => target.id === todo.id);
+
+            //Splice and dice
+            updatedTodos.splice(indexOfOldTodo,1)
+            updatedTodos.splice(indexOfOldTodo,0,todo);
+
+            return {...state, todos:updatedTodos};;
         
         case "DELETE_TODO":
             if(!todoId) return;

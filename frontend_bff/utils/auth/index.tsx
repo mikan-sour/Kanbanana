@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 import { userAuthService } from '../../config';
+import { CookieSerializeOptions, serialize } from 'cookie';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 export const comparePassword = async ( pw:string, hash:string ): Promise<boolean> => {
     try {
@@ -38,3 +40,19 @@ export const hashPassword = async (password:string):Promise<string> => {
         console.error(e);
     }
   }
+
+// API Cookie
+
+export const cookie = (res:NextApiResponse, name:string, value:string, options:CookieSerializeOptions = {}) => {
+    const stringValue =
+      typeof value === 'object' ? 'j:' + JSON.stringify(value) : String(value)
+  
+    if ('maxAge' in options) {
+      options.expires = new Date(Date.now() + options.maxAge)
+      options.maxAge /= 1000
+    }
+  
+    res.setHeader('Set-Cookie', serialize(name, String(stringValue), options))
+}
+  
+  

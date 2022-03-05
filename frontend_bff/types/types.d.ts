@@ -1,3 +1,5 @@
+import { User } from "next-auth";
+
 export interface ILoginForm {
     username:string
     password:string
@@ -47,7 +49,8 @@ export interface KanbanProps {
 }
 
 export interface TodoProps extends ITodo {
-    index:number
+    index:number,
+    columnId:string,
 }
 
 export interface IKanbanAction {
@@ -72,5 +75,21 @@ export interface IKanbanContext {
 }
 
 export type TColumnChange = {todoId:number|string,columnId:number|string, order:number}
+
+export interface IAuthContext {
+    username?:string,
+    isAdmin?:boolean,
+    id?:string,
+    accessToken?:string
+}
+
+export interface IAuthAction {
+    type:string,
+    payload:IAuthContext
+}
+
+export interface ICustomAuthUser extends User {
+    id:string
+}
 
   

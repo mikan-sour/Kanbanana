@@ -4,12 +4,17 @@ const todoServiceURI = "http://localhost:8080/todos";
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse) {
 
-    const { query }  = req;
-
-    console.log('its here')
+    const { query, body }  = req;
 
     try {
-        const result = await fetch(`${todoServiceURI}?owner_id=${query['owner_id']}`)
+        const result = await fetch(`${todoServiceURI}/update_order`,{ 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+            method:'POST',body 
+        })
+
         if(result.status !== 200) {
             const error = await result.json();
             console.error(result.status, error)

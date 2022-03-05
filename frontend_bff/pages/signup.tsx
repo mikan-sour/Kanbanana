@@ -3,14 +3,14 @@ import LoginSignupController from '../components/login&signup/controller';
 import AuthProvider from '../providers/auth';
 
 
-function Login() {
+function Signup() {
 
     return (
-        <AuthProvider>
-          <LoginSignupController type='login'/>
-        </AuthProvider>      
+      <AuthProvider>
+        <LoginSignupController type='signup'/>
+      </AuthProvider> 
     )
 
   }
   
-  export default Login
+  export default Signup;

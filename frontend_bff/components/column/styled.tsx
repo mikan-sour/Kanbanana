@@ -1,15 +1,44 @@
 import styled from 'styled-components';
 
-interface ColumnnContainerProps {isDraggingOver:boolean}
+interface ColumnnContainerProps {isDraggingOver:boolean,disableScroll:boolean}
 
 export const Container = styled.div <ColumnnContainerProps>`
-    margin: 8px;
+    margin: 16px;
     border: 1px solid lightgray;
     border-radius: 2px;
     width: 250px;
-    height: 400px;
+    height: 450px;
     transition: background-color 0.3s ease-out;
+    overflow:hidden;
     background-color: ${props => props.isDraggingOver ? '#bbe6f7' : 'white'}; //#d7ffd7
+
+    ${props => !props.disableScroll && `
+
+        overflow-y:scroll;
+
+        /* width */
+        ::-webkit-scrollbar {
+        width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #FFE81C;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        }
+    
+    `}
+
+   
 
 `;
 
@@ -34,5 +63,5 @@ export const Title = styled.h3`
 
 export const TaskList = styled.div`
     padding: 8px;
-    min-height: 100%;
+    min-height: 75%;
 `;

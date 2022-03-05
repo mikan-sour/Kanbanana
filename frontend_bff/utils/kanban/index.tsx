@@ -1,6 +1,6 @@
 import React from "react";
 import { DragStart, Droppable, DropResult } from "react-beautiful-dnd";
-import { IColumn, IColumnData, IKanbanAction, ITodo, TColumnChange } from "../../types";
+import { IColumn, IColumnData, IKanbanAction, ITodo, TColumnChange } from "../../types/types";
 import { handleTodoDeleteRequest } from "../database";
 
 export function handleDragStartUtil(start: DragStart, setIsdragging:React.Dispatch<React.SetStateAction<boolean>>) {

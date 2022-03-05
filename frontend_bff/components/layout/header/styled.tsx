@@ -16,6 +16,6 @@ export const LogoText = styled.h2`
 
 export const LogoImageWrapper = styled.div`
     position: absolute;
-    left: 10px;
-    top:0
+    left: 25px;
+    top: 25%;
 `

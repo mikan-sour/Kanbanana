@@ -1,5 +1,5 @@
 import React from 'react';
-import { IKanbanAction, IKanbanContext } from '../../types';
+import { IKanbanAction, IKanbanContext } from '../../types/types';
 import { todoReducer } from './TodoReducer';
 
 const initialState:IKanbanContext = {

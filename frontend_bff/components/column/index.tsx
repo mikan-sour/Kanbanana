@@ -1,11 +1,10 @@
 import React from "react";
-import { ColumnProps } from "../../types";
+import { ColumnProps } from "../../types/types";
 import Todo from "../todo";
-import { Container, PlusButton, TaskList, Title, TitleWrapper } from "./styled";
+import { Container, TaskList, Title, TitleWrapper } from "./styled";
 import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import PlusLogo from "../atoms/logo/plus";
 import { TodoContext } from "../../providers/todos";
-import { addNewTodo } from "../../utils/kanban";
 import Modal from "../modal";
 import TodoForm from "../todoForm";
 
@@ -22,9 +21,16 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
         }
     )
 
+    const listRef = React.useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+
+    React.useLayoutEffect(()=> {
+        if(todos.length !== 0) return;
+        listRef.current.scrollTop = 0;
+
+    },[todos.length])
+
     function handleAddTodo(){
         setModalOpen(true)
-        console.log('s')
         // addNewTodo(column.title, dispatch)
     }
 
@@ -35,9 +41,11 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
     return !column ? 
     <></> :
     (
-        <Container isDraggingOver={isDraggingOverCheck.isDraggingOver}>
+        <Container 
+            ref={listRef}
+            isDraggingOver={isDraggingOverCheck.isDraggingOver} disableScroll={todos.length===0}>
             <Modal isOpen={modalOpen} handleClose={handleClose} title='Add Todo'>
-                <TodoForm columnId={column.id}/>
+                <TodoForm columnId={column.id} handleClose={handleClose}/>
             </Modal>
             <TitleWrapper>
                 <Title>{column.title}</Title>
@@ -45,14 +53,18 @@ const Column:React.FC<ColumnProps> = ({column,todos}) => {
             </TitleWrapper>
             <Droppable droppableId={column.id}>
             {(provided, snapshot) => {
-                setIsDraggingOverCheck(snapshot)
+
+                React.useEffect(()=>{
+                    setIsDraggingOverCheck(snapshot)
+                },[snapshot])
+                
                 return (
-                    <TaskList 
+                    <TaskList
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
                         {
                             todos.map((todo,index) => (
-                                <Todo key={todo.id} {...todo} index={index}/>
+                                <Todo key={todo.id} {...todo} index={index} columnId={column.id}/>
                             ))
                         }
                         { provided.placeholder }
