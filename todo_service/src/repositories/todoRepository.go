@@ -5,17 +5,18 @@ import (
 	"fmt"
 
 	"github.com/jedzeins/ToDoList/todo_service/src/database"
-	"github.com/jedzeins/ToDoList/todo_service/src/models"
-	"github.com/jedzeins/ToDoList/todo_service/src/utils"
+	"github.com/jedzeins/ToDoList/todo_service/src/models/apiModels"
+	"github.com/jedzeins/ToDoList/todo_service/src/models/todoModels"
+	"github.com/jedzeins/ToDoList/todo_service/src/utils/dateUtils"
 )
 
-func GetTodos(user string) (*sql.Rows, *models.ApiError) {
+func GetTodos(user string) (*sql.Rows, *apiModels.ApiError) {
 
 	var getQuery = fmt.Sprintf("SELECT id,owner_id,title,details,priority,status,order_in_column,due_date,created_date,last_modified_date FROM todos WHERE owner_id = '%s';", user)
 	rows, err := database.DB.Query(getQuery)
 
 	if err != nil {
-		return nil, &models.ApiError{ErrorMessage: err.Error()}
+		return nil, &apiModels.ApiError{ErrorMessage: err.Error()}
 	}
 
 	return rows, nil
@@ -28,7 +29,7 @@ func GetOneTodo(id string) *sql.Row {
 }
 
 // insert into (post)
-func PostTodo(todo *models.Todo, formattedDueDateString string) *sql.Row {
+func PostTodo(todo *todoModels.Todo, formattedDueDateString string) *sql.Row {
 
 	var insertQuery = `
 	INSERT INTO todos 
@@ -39,22 +40,22 @@ func PostTodo(todo *models.Todo, formattedDueDateString string) *sql.Row {
 }
 
 // delete todo
-func DeleteTodo(id string) (bool, *models.ApiError) {
+func DeleteTodo(id string) (bool, *apiModels.ApiError) {
 	var deleteQuery = "DELETE FROM todos WHERE id=$1 RETURNING id"
 
 	res, err := database.DB.Exec(deleteQuery, id)
 
 	if err != nil {
-		return false, &models.ApiError{ErrorMessage: err.Error()}
+		return false, &apiModels.ApiError{ErrorMessage: err.Error()}
 	}
 
 	rowsAffected, err := res.RowsAffected()
 	if err != nil {
-		return false, &models.ApiError{ErrorMessage: err.Error()}
+		return false, &apiModels.ApiError{ErrorMessage: err.Error()}
 	}
 
 	if rowsAffected == 0 {
-		return false, &models.ApiError{ErrorMessage: fmt.Sprintf("ID %s not in DB, no rows deleted", id)}
+		return false, &apiModels.ApiError{ErrorMessage: fmt.Sprintf("ID %s not in DB, no rows deleted", id)}
 	}
 
 	return true, nil
@@ -62,9 +63,9 @@ func DeleteTodo(id string) (bool, *models.ApiError) {
 }
 
 // PATCH
-func UpdateTodo(todo *models.Todo) *sql.Row {
-	modifiedDate := utils.GetModifiedDate()
-	dueDate := utils.HandleNilDueDate(todo.DueDate)
+func UpdateTodo(todo *todoModels.Todo) *sql.Row {
+	modifiedDate := dateUtils.GetModifiedDate()
+	dueDate := dateUtils.HandleNilDueDate(todo.DueDate)
 	updateQuery := `UPDATE todos SET 
 	title = $1,
 	details = $2,
@@ -81,8 +82,8 @@ func UpdateTodo(todo *models.Todo) *sql.Row {
 
 }
 
-func UpdateOrderOfTodo(todo *models.TodoUpdateOrder) *sql.Row {
-	modifiedDate := utils.GetModifiedDate()
+func UpdateOrderOfTodo(todo *todoModels.TodoUpdateOrder) *sql.Row {
+	modifiedDate := dateUtils.GetModifiedDate()
 	updateOrderQuery := `
 	UPDATE todos SET 
 	status = $1,

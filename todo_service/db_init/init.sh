@@ -20,18 +20,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$POSTGRES_DB"<<-EO
 
 EOSQL
 
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname="$POSTGRES_DB" -p < dataload.sql
 
-# CREATE TABLE IF NOT EXISTS columns 
-#       (
-#          id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-#          owner_id uuid NOT NULL, 
-#          title VARCHAR(255) NOT NULL
-#       );
 
-#    CREATE TABLE IF NOT EXISTS column_todo_index 
-#       (
-#          id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-#          todo_order INT NOT NULL,
-#          CONSTRAINT todo_id FOREIGN KEY(id) REFERENCES todos (id) ON DELETE CASCADE,
-#          CONSTRAINT column_id  FOREIGN KEY(id) REFERENCES columns (id) ON DELETE CASCADE
-#       );

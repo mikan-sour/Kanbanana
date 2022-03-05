@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/jedzeins/ToDoList/todo_service/src/models"
+	"github.com/jedzeins/ToDoList/todo_service/src/controllers/utils"
+	"github.com/jedzeins/ToDoList/todo_service/src/models/apiModels"
+	"github.com/jedzeins/ToDoList/todo_service/src/models/apiModels/apiModelsColumnsAndTodo"
+	"github.com/jedzeins/ToDoList/todo_service/src/models/todoModels"
 	"github.com/jedzeins/ToDoList/todo_service/src/services"
-	"github.com/jedzeins/ToDoList/todo_service/src/utils"
 )
 
 func UpdateTodosOrderController(w http.ResponseWriter, r *http.Request) {
@@ -17,7 +19,7 @@ func UpdateTodosOrderController(w http.ResponseWriter, r *http.Request) {
 	}
 
 	decoder := json.NewDecoder(r.Body)
-	var todoPosts = []models.TodoUpdateOrder{}
+	var todoPosts = []todoModels.TodoUpdateOrder{}
 	decodeErr := decoder.Decode(&todoPosts)
 
 	if decodeErr != nil {
@@ -55,7 +57,7 @@ func TodosController(w http.ResponseWriter, r *http.Request) {
 func handlePatch(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
-	var todoPost = models.Todo{}
+	var todoPost = todoModels.Todo{}
 	decodeErr := decoder.Decode(&todoPost)
 	if decodeErr != nil {
 		utils.ResponseError(w, http.StatusInternalServerError, decodeErr.Error())
@@ -92,7 +94,7 @@ func handleDelete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var apiResponse = models.ApiDeletedResponse{Deleted: res}
+	var apiResponse = apiModels.ApiDeletedResponse{Deleted: res}
 
 	utils.ResponseSuccess(w, apiResponse, http.StatusOK)
 
@@ -102,7 +104,7 @@ func handlePost(w http.ResponseWriter, r *http.Request) {
 
 	// get the post data from the request
 	decoder := json.NewDecoder(r.Body)
-	var todoPost = models.Todo{}
+	var todoPost = todoModels.Todo{}
 	decodeErr := decoder.Decode(&todoPost)
 	if decodeErr != nil {
 		utils.ResponseError(w, http.StatusInternalServerError, decodeErr.Error())
@@ -151,7 +153,7 @@ func handleGet(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		var apiResponse = models.ApiColumnsAndTodoResponse{Todos: todos, Columns: columns}
+		var apiResponse = apiModelsColumnsAndTodo.ApiColumnsAndTodoResponse{Todos: todos, Columns: columns}
 
 		utils.ResponseSuccess(w, apiResponse, http.StatusOK)
 
