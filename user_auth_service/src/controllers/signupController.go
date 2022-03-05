@@ -77,8 +77,6 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	// w.Write([]byte(accessToken))
 	json.NewEncoder(w).Encode(user)
 
-	return
-
 	// service to create session (also get's refresh token)
 
 	// service to get access token

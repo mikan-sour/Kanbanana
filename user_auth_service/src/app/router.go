@@ -16,6 +16,7 @@ func makeRouter(app models.App) {
 
 	http.HandleFunc("/health", controllers.HealthCheck)
 	http.HandleFunc("/signup", controllers.SignUp)
+	http.HandleFunc("/login", controllers.Login)
 
 	app.Router = &http.Server{
 		Addr:           Port,
